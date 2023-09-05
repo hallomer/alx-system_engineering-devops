@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -lt | cut -d ' ' -f 10 | head
+ls -l -t | head -10 | grep -v "^total" | cut -d ' ' -f 10
