@@ -1,28 +1,23 @@
-# 7-puppet_install_nginx_web_server.pp
+# Configures an Nginx server using Puppet
+exec { 'update system':
+        command => '/usr/bin/apt-get update',
+}
+
 package { 'nginx':
-  ensure => installed,
+	ensure => 'installed',
+	require => Exec['update system']
 }
 
-file { 'homepage':
-  path    => '/var/www/html/index.nginx-debian.html',
-  content => 'Hello World!',
+file {'/var/www/html/index.html':
+	content => 'Hello World!'
 }
 
-file_line { 'listen_on_port_80':
-  path   => '/etc/nginx/sites-available/default',
-  line   => 'listen 80;',
-  match  => '^listen\s+80;',
-  notify => Service['nginx'],
+exec {'redirect_me':
+	command => 'sed -i "24i\	rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;" /etc/nginx/sites-available/default',
+	provider => 'shell'
 }
 
-file_line { 'redirect_url':
-  path   => '/etc/nginx/sites-available/default',
-  line   => 'rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
-  after  => 'server_name _;',
-  notify => Service['nginx'],
-}
-
-service { 'nginx':
-  ensure => running,
-  enable => true,
+service {'nginx':
+	ensure => running,
+	require => Package['nginx']
 }
