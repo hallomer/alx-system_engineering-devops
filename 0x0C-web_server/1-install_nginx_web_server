@@ -10,4 +10,4 @@ systemctl status nginx
 
 echo 'Hello World!' > /var/www/html/index.nginx-debian.html
 
-systemctl restart nginx
+service nginx start
