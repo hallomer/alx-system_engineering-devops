@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
-# Installs, configures, and starts the server
-apt-get update
-apt-get -y install nginx
-sudo ufw allow 'Nginx HTTP'
-mkdir -p /var/www/html/
-sudo chmod -R 755 /var/www
-echo 'Hello World!' > /var/www/html/index.html
+# Configures Nginx for URL redirection
+if ! command -v nginx &> /dev/null
+then
+	apt-get update
+	apt-get -y install nginx
+	sudo ufw allow 'Nginx HTTP'
+	mkdir -p /var/www/html/
+	sudo chmod -R 755 /var/www
+	echo 'Hello World!' > /var/www/html/index.html
+fi
+
 config=\
 "server {
 	listen 80 default_server;
