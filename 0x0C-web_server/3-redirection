@@ -6,7 +6,7 @@ sudo ufw allow 'Nginx HTTP'
 mkdir -p /var/www/html/
 sudo chmod -R 755 /var/www
 echo 'Hello World!' > /var/www/html/index.html
-SERVER_CONFIG=\
+config=\
 "server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
@@ -21,7 +21,7 @@ SERVER_CONFIG=\
 	}
 }"
 
-bash -c "echo -e '$SERVER_CONFIG' > /etc/nginx/sites-enabled/default"
+bash -c "echo -e '$config' > /etc/nginx/sites-enabled/default"
 
 if [ "$(pgrep -c nginx)" -le 0 ]; then
 	service nginx start
