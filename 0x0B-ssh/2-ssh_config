@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Uses private key and disable password authentication
+IdentityFile ~/.ssh/school
+PasswordAuthentication no
