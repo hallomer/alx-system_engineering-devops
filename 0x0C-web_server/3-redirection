@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Installs and configures Nginx web server
+# Configures Nginx web server
 sudo apt-get update
 sudo apt-get install -y nginx
 mkdir -p /var/www/html/
