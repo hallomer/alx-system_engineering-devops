@@ -1,24 +1,16 @@
 # Configure Nginx to have a custom HTTP response header
 
-package { 'nginx':
-  ensure => installed,
+exec {'update':
+  command => '/usr/bin/apt-get update',
 }
-
-file { '/var/www/html/index.html':
-  content => 'Hello World!',
+-> package {'nginx':
+  ensure => 'present',
 }
-
-file_line { 'Add X-Served-By header':
-  ensure => present,
-  path   => '/etc/nginx/sites-available/default',
-  after  => 'server_name _;',
-  line   => "add_header X-Served-By ${::hostname};",
-  notify => Service['nginx'],
+-> file_line { 'http_header':
+  path  => '/etc/nginx/nginx.conf',
+  match => 'http {',
+  line  => "http {\n\tadd_header X-Served-By \"${hostname}\";",
 }
-
-service { 'nginx':
-  ensure     => running,
-  enable     => true,
-  require    => Package['nginx'],
-  subscribe  => File_line['Add X-Served-By header'],
+-> exec {'run':
+  command => '/usr/sbin/service nginx restart',
 }
