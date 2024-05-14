@@ -1,4 +1,4 @@
-# Configure Nginx to have a custom HTTP response header
+# Configure Nginx to have a custom HTTP response header with puppet
 package { 'nginx':
   ensure => 'present'
 }
