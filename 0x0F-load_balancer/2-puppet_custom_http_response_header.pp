@@ -1,4 +1,4 @@
-# Configure Nginx to have a custom HTTP response header with puppet
+# Creating a custom HTTP header response, but with Puppet.
 package { 'nginx':
   ensure => 'present'
 }
@@ -14,4 +14,4 @@ file_line { 'Add X-Served-By header':
 service { 'nginx':
   ensure => 'running',
   enable => 'true'
-}
+}}
