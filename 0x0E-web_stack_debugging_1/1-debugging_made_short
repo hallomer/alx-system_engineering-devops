@@ -2,4 +2,4 @@
 # Configures Nginx to listen on port 80 in 5 lines
 sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 sudo service nginx restart
-rm /run/nginx.pid
+service nginx stop
