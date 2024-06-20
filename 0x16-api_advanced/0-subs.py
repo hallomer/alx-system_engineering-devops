@@ -8,15 +8,16 @@ def number_of_subscribers(subreddit):
     url = f"https://www.reddit.com/r/{subreddit}/about.json"
     headers = {'User-Agent': 'custom-agent'}
     response = requests.get(url, headers=headers, allow_redirects=False)
-    
+
     if response.status_code != 200:
         return 0
-    
-    data = response.json().get('data')
+
+    try:
+        data = response.json()
+    except Exception:
+        return 0
+
+    if data is None or 'subscribers' not in data:
+        return 0
+
     return data.get('subscribers')
-
-
-if __name__ == "__main__":
-    import sys
-    subreddit = sys.argv[1]
-    print(number_of_subscribers(subreddit))
