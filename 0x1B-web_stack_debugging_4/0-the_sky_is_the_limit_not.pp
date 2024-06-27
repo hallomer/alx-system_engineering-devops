@@ -1,15 +1,11 @@
-# This Puppet manifest adjusts the ulimit for Nginx workers to handle more open files.
+# Adjusts the ulimit for Nginx server
 
-$file_line { 'set-nginx-ulimit':
-  path  => '/etc/default/nginx',
-  line  => 'ULIMIT="-n 4096"',
-  match => '^ULIMIT=',
-  notify => Service['nginx'],
+exec { 'set-nginx-ulimit':
+  command => '/bin/sed -i "s/15/4096/" /etc/default/nginx',
+  path    => '/usr/local/bin/:/bin/',
 }
 
-service { 'nginx':
-  ensure     => 'running',
-  enable     => true,
-  hasrestart => true,
-  restart    => 'service nginx reload',
+exec { 'nginx-restart':
+  command => '/etc/init.d/nginx restart',
+  path    => '/etc/init.d/',
 }
